@@ -15,11 +15,19 @@ class IObject:
 
     @abstract
     @staticmethod
-    def parser(xml: ET.ElementTree) -> 'IObject':
+    def parser(xml: ET.ElementTree, group: str) -> 'IObject':
         pass
 
     @abstract
     def getTitle(self) -> str:
+        pass
+    
+    @abstract
+    def getGroup(self) -> str:
+        pass
+
+    @abstract
+    def create(self):
         pass
 
     @classmethod
@@ -32,7 +40,8 @@ class IObject:
     @classmethod
     def parse(cls, path) -> 'IObject':
         cls.setup()
+        group = os.path.split(os.path.split(path)[0])[1]
         xml = ET.parse(os.path.join(path, "object.xml"))
         root = xml.getroot()
-        obj = cls.subParsers.get(root.tag, cls.parser)(xml)
+        obj = cls.subParsers.get(root.tag, cls.parser)(xml, group)
         return obj

@@ -31,3 +31,8 @@ class PyNodes:
         self.path = path
         self.loadedObjects: dict[str, list[IObject]] = {}
         self._loadPath()
+
+    def getTypeList(self, type) -> list[IObject]:
+        if type not in self.loadedObjects:
+            return []
+        return self.loadedObjects[type]

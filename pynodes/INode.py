@@ -25,7 +25,7 @@ class INode(IObject):
     def getName() -> str:
         return "node"
     @staticmethod
-    def parser(xml: ET.ElementTree) -> 'INode':
+    def parser(xml: ET.ElementTree, group: str) -> 'INode':
         root = xml.getroot()
         title = root.get("title", "UNKNOWN")
         inputs: list[INode.IInput] = []
@@ -39,14 +39,18 @@ class INode(IObject):
                     outputs.append(INode.IOutput(sub))
                 case 'action':
                     action = INode.IAction(sub)
-        return INode(inputs, outputs, action, title)
+        return INode(group, inputs, outputs, action, title)
 
-    def __init__(self, inputs: list['INode.IInput'], outputs: list['INode.IOutput'], action: 'INode.IAction', title: str):
+    def __init__(self, group:str, inputs: list['INode.IInput'], outputs: list['INode.IOutput'], action: 'INode.IAction', title: str):
         super().__init__()
         self.inputs = inputs
         self.outputs = outputs
         self.title = title
         self.action = action
+        self.group = group
 
     def getTitle(self) -> str:
         return self.title
+    
+    def getGroup(self) -> str:
+        return self.group
