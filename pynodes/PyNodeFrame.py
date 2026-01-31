@@ -1,5 +1,5 @@
 import tkinter as tk
-from .todo import todo
+from .dataStructure.todo import todo
 
 @todo
 class PyNodeFrame(tk.Frame):

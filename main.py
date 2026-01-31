@@ -1,6 +1,7 @@
 from pynodes import PyNodes, PyNodeFrame, INode
 import tkinter as tk
 from tkinter import ttk
+
 def main():
     nodes = PyNodes("data")
     root = tk.Tk()

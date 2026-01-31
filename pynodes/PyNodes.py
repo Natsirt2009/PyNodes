@@ -1,8 +1,5 @@
-from .INode import INode
-from .IBlock import IBlock
-from .IObject import IObject
+from .dataStructure import IObject
 import os
-
 
 class PyNodes:
     def _loadObject(self, module, obj):
