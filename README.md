@@ -5,7 +5,8 @@ A dynamic python node/block renderering and processing library
 create a folder `data`
 for each module you want to create put another folder inside `data`
 for each node or block you want put a folder inside your module folder
-lastly create a file called `object.xml` inside the node folder
+lastly create a file called `object.xml` inside the node folder.
+To add functionality you might want to add an `action.py` file.
 
 The structure should look like this:
 ```
@@ -13,6 +14,7 @@ data
 |---module
 |   |---node
 |   |   |---object.xml
+|   |   |---action.py
 ```
 
 Inside object.xml you can create nodes, types and blocks.  
