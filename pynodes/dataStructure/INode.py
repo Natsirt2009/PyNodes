@@ -1,9 +1,9 @@
+from ..Node import Node
 from .IObject import IObject
 import xml.etree.ElementTree as ET
-from .abstract import abstract
-from .todo import todo
+from ..annotators import todo, abstract
 
-class INode(IObject):
+class INode(IObject[Node]):
     class IPort:
         @abstract
         def __init__(self):
@@ -28,6 +28,7 @@ class INode(IObject):
     def parser(xml: ET.ElementTree, group: str) -> 'INode':
         root = xml.getroot()
         title = root.get("title", "UNKNOWN")
+        color = root.get("color", "#000000")
         inputs: list[INode.IInput] = []
         outputs: list[INode.IOutput] = []
         action: INode.IAction = []
@@ -39,18 +40,21 @@ class INode(IObject):
                     outputs.append(INode.IOutput(sub))
                 case 'action':
                     action = INode.IAction(sub)
-        return INode(group, inputs, outputs, action, title)
+        return INode(group, inputs, outputs, action, title, color)
 
-    def __init__(self, group:str, inputs: list['INode.IInput'], outputs: list['INode.IOutput'], action: 'INode.IAction', title: str):
-        super().__init__()
+    def __init__(self, group:str, inputs: list['INode.IInput'], outputs: list['INode.IOutput'], action: 'INode.IAction', title: str, color: str):
         self.inputs = inputs
         self.outputs = outputs
         self.title = title
         self.action = action
         self.group = group
+        self.color = color
 
     def getTitle(self) -> str:
         return self.title
     
     def getGroup(self) -> str:
         return self.group
+    
+    def create(self, master) -> Node:
+        return Node(master)

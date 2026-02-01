@@ -1,5 +1,11 @@
+from typing import Type, TypeVar
+from .AObject import AObject
+from .Node import Node
 from .dataStructure import IObject
 import os
+import tkinter as tk
+
+R = TypeVar('R', bound=AObject)
 
 class PyNodes:
     def _loadObject(self, module, obj):
@@ -33,3 +39,11 @@ class PyNodes:
         if type not in self.loadedObjects:
             return []
         return self.loadedObjects[type]
+    def create(self, nodetype: Type[R], name: str, group: str, master) -> R:
+        print(self.loadedObjects)
+        if not nodetype.getType() in self.loadedObjects:
+            raise IndexError("Unknown Type: " + nodetype.getType())
+        for entry in self.loadedObjects[nodetype.getType()]:
+            if entry.getGroup() == group and entry.getTitle() == name:
+                return entry.create(master)
+        raise IndexError("Unknown Node: "+ name)

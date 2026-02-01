@@ -1,10 +1,11 @@
-from typing import Callable
+from typing import Callable, Generic, TypeVar
 import xml.etree.ElementTree as ET
 import os
-from .abstract import abstract
+from ..annotators import abstract
 
+T = TypeVar('T')
 
-class IObject:
+class IObject(Generic[T]):
     subParsers: dict[str, Callable[[ET.ElementTree], 'IObject']] = {}
     isSetup = False
     
@@ -27,8 +28,11 @@ class IObject:
         pass
 
     @abstract
-    def create(self):
+    def create(self, master) -> T:
         pass
+    @abstract
+    def __init__(self):
+        super().__init__()
 
     @classmethod
     def setup(cls):
