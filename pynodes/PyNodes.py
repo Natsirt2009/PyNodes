@@ -40,7 +40,6 @@ class PyNodes:
             return []
         return self.loadedObjects[type]
     def create(self, nodetype: Type[R], name: str, group: str, master) -> R:
-        print(self.loadedObjects)
         if not nodetype.getType() in self.loadedObjects:
             raise IndexError("Unknown Type: " + nodetype.getType())
         for entry in self.loadedObjects[nodetype.getType()]:
