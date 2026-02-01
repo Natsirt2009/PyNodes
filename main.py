@@ -13,8 +13,10 @@ class Application:
         self.paned = tk.PanedWindow(self.sidebar, orient=tk.VERTICAL, sashwidth=5)
         self.paned.pack(fill="y", expand=True)
         self.treeviewFolders = ttk.Treeview(self.paned)
+        self.treeviewFolders.heading("#0", text="EXPLORER")
         self.paned.add(self.treeviewFolders, minsize=100)
         self.treeviewNodes = ttk.Treeview(self.paned)
+        self.treeviewNodes.heading("#0", text="NODES")
         self.paned.add(self.treeviewNodes, minsize=100)
     
     def loadImages(self):
