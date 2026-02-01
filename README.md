@@ -20,7 +20,7 @@ data
 Inside object.xml you can create nodes, types and blocks.  
 For a node:
 ```xml
-<node title="<your-title>">
+<node title="<your-title>" color="<your-color>">
     <input type="<type>" name="<input-name>" />
     <output type="<type>" name="<output-name>" />
     <action name="<name>" />
@@ -28,7 +28,7 @@ For a node:
 ```
 For a block:
 ```xml
-<block title="<your-title>" output_type="<type>">
+<block title="<your-title>" output_type="<type>" color="<your-color>">
     <input type="<type>" name="<input-name>" />
     <action name="<name>" />
 </block>
