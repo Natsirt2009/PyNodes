@@ -57,4 +57,4 @@ class INode(IObject[Node]):
         return self.group
     
     def create(self, master) -> Node:
-        return Node(master)
+        return Node(master, self.title, self.color, [], [])
