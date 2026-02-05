@@ -1,9 +1,23 @@
 import tkinter as tk
+
+from .Type import Type
 from .annotators import todo
 from .AObject import AObject
 
 @todo
 class Node(tk.Frame, AObject):
+    class Input:
+        def __init__(self, typename: str, typegroup: str, name: str):
+            self.name = name
+            self.typename = typename
+            self.typegroup = typegroup
+
+            self.type: Later[Type] = Later()
+            # Somwhere else, later in programm flow
+            Later.build(self.type, arg)
+            self.type.doStuff() # Das soll quasi von dem later object getunnelt werden
+
+
     def __init__(self, master, title: str, color: str, outputs: list, inputs: list):
         super().__init__(master)
         self.base_width = 100

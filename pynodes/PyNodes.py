@@ -1,6 +1,5 @@
 from typing import Type, TypeVar
 from .AObject import AObject
-from .Node import Node
 from .dataStructure import IObject
 import os
 import tkinter as tk
@@ -45,4 +44,4 @@ class PyNodes:
         for entry in self.loadedObjects[nodetype.getType()]:
             if entry.getGroup() == group and entry.getTitle() == name:
                 return entry.create(master)
-        raise IndexError("Unknown Node: "+ name)
+        raise IndexError("Unknown Object: "+ name)

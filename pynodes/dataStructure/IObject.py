@@ -1,9 +1,11 @@
-from typing import Callable, Generic, TypeVar
+from typing import Callable, Generic, Type, TypeVar
 import xml.etree.ElementTree as ET
 import os
 from ..annotators import abstract
+from ..AObject import AObject
 
 T = TypeVar('T')
+R = TypeVar('R', bound=AObject)
 
 class IObject(Generic[T]):
     subParsers: dict[str, Callable[[ET.ElementTree], 'IObject']] = {}

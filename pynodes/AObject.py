@@ -12,3 +12,6 @@ class AObject:
     @staticmethod
     def getType() -> str:
         pass
+    @abstract
+    def buildTypes(self):
+        pass

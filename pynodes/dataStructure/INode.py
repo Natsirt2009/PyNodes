@@ -1,5 +1,8 @@
+import typing
+
+from ..Type import Type
 from ..Node import Node
-from .IObject import IObject
+from .IObject import R, IObject
 import xml.etree.ElementTree as ET
 from ..annotators import todo, abstract
 
@@ -8,10 +11,23 @@ class INode(IObject[Node]):
         @abstract
         def __init__(self):
             pass
+        @abstract
+        def create(self):
+            pass
     @todo
     class IInput(IPort):
         def __init__(self, element: ET.Element):
-            pass
+            self.type: str = element.get("type", "unknown")
+            self.name: str = element.get("name", "unknown")
+            self.typegroup: str = element.get("group", "unkown")
+        def getName(self) -> str:
+            return self.name
+        def getGroup(self) -> str:
+            return self.typegroup
+        def getTypeName(self) -> str:
+            return self.type
+        def create(self) -> Node.Input:
+            return Node.Input(self.type, self.typegroup, self.name)
     @todo
     class IOutput(IPort):
         def __init__(self, element: ET.Element):
@@ -57,4 +73,6 @@ class INode(IObject[Node]):
         return self.group
     
     def create(self, master) -> Node:
-        return Node(master, self.title, self.color, [], [])
+        createdInputs:  list[Node.Input]  = [input.create() for input in self.inputs]
+        createdOutputs: list[Node.Output] = [output.create() for output in self.inputs]
+        return Node(master, self.title, self.color, createdInputs, createdOutputs)

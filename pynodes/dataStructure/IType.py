@@ -15,7 +15,7 @@ class IType(IObject):
                 case 'meta':
                     meta[sub.get("name", "unknown")] = sub.get("value", "")
         return IType(group, meta, title)
-    
+        
     def __init__(self, group: str, meta: dict[str, str], title: str):
         self.meta = meta
         self.title = title

@@ -19,6 +19,13 @@ class Application:
         self.treeviewNodes.heading("#0", text="NODES")
         self.paned.add(self.treeviewNodes, minsize=100)
     
+    def buildMenu(self) -> None:
+        self.menu = tk.Menu(self.root)
+        self.root.config(menu=self.menu)
+        self.testMen = tk.Menu(self.menu)
+        self.menu.add_cascade(label="TEST", menu=self.testMen)
+        self.testMen.add_command(label="Test")
+
     def loadImages(self):
         for path, folder, files in os.walk("images"):
             for file in files:
@@ -48,6 +55,7 @@ class Application:
         self.nodes = PyNodes("data")
         self.images: dict[str, tk.PhotoImage] = {}
         self.buildLayout()
+        self.buildMenu()
         self.loadImages()
         for node in self.nodes.getTypeList(INode.getName()):
             if node.getGroup() not in self.treeviewNodes.get_children():
