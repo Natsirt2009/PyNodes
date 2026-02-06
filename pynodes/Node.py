@@ -24,6 +24,9 @@ class Node(tk.Frame, AObject):
             self.typename = typename
             self.typegroup = typegroup
             self.type: Later[Type] = Later(Type)
+        def createType(self, objectList: IPyNodes, parent: 'Node'):
+            t = objectList.create(Type, self.typename, self.typegroup, parent.master)
+            self.type.take(t)
 
     def __init__(self, master, title: str, color: str, inputs: list[Input], outputs: list[Output], objectList: IPyNodes):
         tk.Frame.__init__(self, master)
@@ -42,9 +45,9 @@ class Node(tk.Frame, AObject):
         self.title_label.config(font=("Arial", self.base_font_size))
         self.output_ports = outputs
         self.input_ports = inputs
-        (port.createType(objectList, self) for port in self.output_ports)
-        (port.createType(objectList, self) for port in self.input_ports)
-
+        for port in self.output_ports: port.createType(objectList, self)
+        for port in self.input_ports: port.createType(objectList, self)
+        
     def scale(self, factor: float) -> None:
         self.current_scale *= factor
         new_w = int(self.base_width * self.current_scale)

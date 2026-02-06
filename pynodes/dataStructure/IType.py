@@ -1,6 +1,9 @@
+from .IPyNodesRenderer import IPyNodesRenderer
+from .IPyNodes import IPyNodes
+from ..Type import Type
 from .IObject import IObject
 
-class IType(IObject):
+class IType(IObject[Type]):
     @staticmethod
     def getName() -> str:
         return "type"
@@ -25,3 +28,5 @@ class IType(IObject):
         return self.title
     def getGroup(self):
         return self.group
+    def create(self, master: IPyNodesRenderer, objectList: IPyNodes) -> Type:
+        return Type(self.meta)

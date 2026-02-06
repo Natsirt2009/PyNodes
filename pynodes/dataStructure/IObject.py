@@ -37,7 +37,7 @@ class IObject(Generic[T]):
         pass
     @abstract
     def __init__(self):
-        super().__init__()
+        pass
 
     @classmethod
     def setup(cls):
