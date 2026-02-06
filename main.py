@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import ttk
 import os
 
+from pynodes.dataStructure import AObject
+
 class Application:
     def buildLayout(self) -> None:
         self.root = tk.Tk()

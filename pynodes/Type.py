@@ -1,6 +1,9 @@
-from .AObject import AObject
+from .dataStructure.AType import AType
 
-
-class Type(AObject):
+class Type(AType):
     def __init__(self):
-        self.pa = "PA"
+        pass
+    
+    @staticmethod
+    def getType() -> str:
+        return "type"

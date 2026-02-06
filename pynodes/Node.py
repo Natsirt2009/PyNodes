@@ -1,9 +1,11 @@
 import tkinter as tk
 
+from .dataStructure import IPyNodes
+from .dataStructure.AObject import AObject
 from .Later import Later
 from .Type import Type
 from .annotators import todo
-from .AObject import AObject
+
 
 @todo
 class Node(tk.Frame, AObject):
@@ -13,9 +15,18 @@ class Node(tk.Frame, AObject):
             self.typename = typename
             self.typegroup = typegroup
             self.type: Later[Type] = Later(Type)
-            
-    def __init__(self, master, title: str, color: str, outputs: list, inputs: list):
-        super().__init__(master)
+        def createType(self, objectList: IPyNodes, parent: 'Node'):
+            t = objectList.create(Type, self.typename, self.typegroup, parent.master)
+            self.type.take(t)
+    class Output:
+        def __init__(self, typename: str, typegroup: str, name: str):
+            self.name = name
+            self.typename = typename
+            self.typegroup = typegroup
+            self.type: Later[Type] = Later(Type)
+
+    def __init__(self, master, title: str, color: str, inputs: list[Input], outputs: list[Output], objectList: IPyNodes):
+        tk.Frame.__init__(self, master)
         self.base_width = 100
         self.base_height = (20 + len(outputs)*20 + len(inputs)*20)
         self.config(width=self.base_width, height=self.base_height, bg="#404040", highlightbackground="#000000", highlightthickness=3)
@@ -29,6 +40,10 @@ class Node(tk.Frame, AObject):
         self.base_padx = 5
         self.title_label.pack(fill="both", padx=self.base_padx)
         self.title_label.config(font=("Arial", self.base_font_size))
+        self.output_ports = outputs
+        self.input_ports = inputs
+        (port.createType(objectList, self) for port in self.output_ports)
+        (port.createType(objectList, self) for port in self.input_ports)
 
     def scale(self, factor: float) -> None:
         self.current_scale *= factor

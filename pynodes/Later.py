@@ -7,8 +7,11 @@ class Later(Generic[T]):
         self._cls = cls
         self._value: T | None = None
 
-    def build(self) -> None:
-        self._value = self._cls()
+    def build(self, *args, **kwargs) -> None:
+        self._value = self._cls(*args, **kwargs)
+    
+    def take(self, obj: T):
+        self._value = obj
 
     def get(self) -> T:
         if self._value is None:

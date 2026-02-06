@@ -1,37 +1,38 @@
 import typing
 
-from ..Type import Type
+from .IPyNodes import IPyNodes
+from .IPyNodesRenderer import IPyNodesRenderer
 from ..Node import Node
-from .IObject import R, IObject
+from .IObject import IObject
 import xml.etree.ElementTree as ET
 from ..annotators import todo, abstract
 
+TP = typing.TypeVar("TP")
+
 class INode(IObject[Node]):
-    class IPort:
+    class IPort(typing.Generic[TP]):
         @abstract
         def __init__(self):
             pass
         @abstract
-        def create(self):
+        def create(self) -> TP:
             pass
     @todo
-    class IInput(IPort):
+    class IInput(IPort[Node.Input]):
         def __init__(self, element: ET.Element):
             self.type: str = element.get("type", "unknown")
             self.name: str = element.get("name", "unknown")
             self.typegroup: str = element.get("group", "unkown")
-        def getName(self) -> str:
-            return self.name
-        def getGroup(self) -> str:
-            return self.typegroup
-        def getTypeName(self) -> str:
-            return self.type
         def create(self) -> Node.Input:
             return Node.Input(self.type, self.typegroup, self.name)
     @todo
-    class IOutput(IPort):
+    class IOutput(IPort[Node.Output]):
         def __init__(self, element: ET.Element):
-            pass
+            self.type: str = element.get("type", "unknown")
+            self.name: str = element.get("name", "unknown")
+            self.typegroup: str = element.get("group", "unkown")
+        def create(self) -> Node.Output:
+            return Node.Output(self.type, self.typegroup, self.name)
     @todo
     class IAction:
         def __init__(self, element: ET.Element):
@@ -72,7 +73,8 @@ class INode(IObject[Node]):
     def getGroup(self) -> str:
         return self.group
     
-    def create(self, master) -> Node:
+    def create(self, master: IPyNodesRenderer, objectList: IPyNodes) -> Node:
         createdInputs:  list[Node.Input]  = [input.create() for input in self.inputs]
         createdOutputs: list[Node.Output] = [output.create() for output in self.inputs]
-        return Node(master, self.title, self.color, createdInputs, createdOutputs)
+        return Node(master, self.title, self.color, createdInputs, createdOutputs, objectList)
+

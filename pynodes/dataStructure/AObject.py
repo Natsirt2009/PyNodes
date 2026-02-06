@@ -1,7 +1,6 @@
-from .annotators import abstract
+from ..annotators import abstract
 
-
-class AObject:
+class AObject(metaclass=type):
     @abstract
     def __init__(self):
         self.window_id: int = 0
@@ -13,5 +12,5 @@ class AObject:
     def getType() -> str:
         pass
     @abstract
-    def buildTypes(self):
+    def buildTypes(self) -> None:
         pass

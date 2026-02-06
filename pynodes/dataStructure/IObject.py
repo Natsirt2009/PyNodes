@@ -1,11 +1,14 @@
 from typing import Callable, Generic, Type, TypeVar
 import xml.etree.ElementTree as ET
 import os
+
+from .IPyNodes import IPyNodes
+from .IPyNodesRenderer import IPyNodesRenderer
 from ..annotators import abstract
-from ..AObject import AObject
+from .AObject import AObject
 
 T = TypeVar('T')
-R = TypeVar('R', bound=AObject)
+
 
 class IObject(Generic[T]):
     subParsers: dict[str, Callable[[ET.ElementTree], 'IObject']] = {}
@@ -30,7 +33,7 @@ class IObject(Generic[T]):
         pass
 
     @abstract
-    def create(self, master) -> T:
+    def create(self, master: IPyNodesRenderer, objectList: IPyNodes) -> T:
         pass
     @abstract
     def __init__(self):

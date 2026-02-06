@@ -1,12 +1,8 @@
-from typing import Type, TypeVar
-from .AObject import AObject
-from .dataStructure import IObject
+from typing import Type
+from .dataStructure import IPyNodesRenderer, IPyNodes, IObject, R
 import os
-import tkinter as tk
 
-R = TypeVar('R', bound=AObject)
-
-class PyNodes:
+class PyNodes(IPyNodes):
     def _loadObject(self, module, obj):
         isValidObject = False
         for f in os.scandir(os.path.join(self.path, module, obj)):
@@ -38,10 +34,10 @@ class PyNodes:
         if type not in self.loadedObjects:
             return []
         return self.loadedObjects[type]
-    def create(self, nodetype: Type[R], name: str, group: str, master) -> R:
+    def create(self, nodetype: Type[R], name: str, group: str, master: IPyNodesRenderer) -> R:
         if not nodetype.getType() in self.loadedObjects:
             raise IndexError("Unknown Type: " + nodetype.getType())
         for entry in self.loadedObjects[nodetype.getType()]:
             if entry.getGroup() == group and entry.getTitle() == name:
-                return entry.create(master)
+                return entry.create(master, self)
         raise IndexError("Unknown Object: "+ name)

@@ -1,10 +1,12 @@
 import tkinter as tk
+
+from .dataStructure import IPyNodesRenderer
 from .Node import Node
 from .annotators import todo
 from .PyNodes import PyNodes
 
 @todo
-class PyNodeFrame(tk.Frame):
+class PyNodeFrame(tk.Frame, IPyNodesRenderer):
     def __init__(self, master, nodes: PyNodes):
         super().__init__(master)
         self.availNodes = nodes
