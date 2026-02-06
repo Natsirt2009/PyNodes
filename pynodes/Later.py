@@ -1,17 +1,16 @@
-from __future__ import annotations
-from typing import Generic, TypeVar, Type, Any, Optional
+from typing import Generic, TypeVar, Type
 
 T = TypeVar("T")
 
 class Later(Generic[T]):
-    def __init__(self, value: Optional[T] = None) -> None:
-        self.value: Optional[T] = value
+    def __init__(self, cls: Type[T]) -> None:
+        self._cls = cls
+        self._value: T | None = None
 
-    @staticmethod
-    def build(laterelement: Type[T], *args: Any, **kwargs: Any) -> "Later[T]":
-        """
-        Baut ein Objekt des Typs `laterelement` mit den übergebenen Argumenten.
-        Der Rückgabewert ist ein Later-Objekt, das das erzeugte Objekt enthält.
-        """
-        value = laterelement(*args, **kwargs)
-        return Later[T](value)
+    def build(self) -> None:
+        self._value = self._cls()
+
+    def get(self) -> T:
+        if self._value is None:
+            raise RuntimeError("Object not built yet")
+        return self._value

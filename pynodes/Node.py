@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from .Later import Later
 from .Type import Type
 from .annotators import todo
 from .AObject import AObject
@@ -11,13 +12,8 @@ class Node(tk.Frame, AObject):
             self.name = name
             self.typename = typename
             self.typegroup = typegroup
-
-            self.type: Later[Type] = Later()
-            # Somwhere else, later in programm flow
-            Later.build(self.type, arg)
-            self.type.doStuff() # Das soll quasi von dem later object getunnelt werden
-
-
+            self.type: Later[Type] = Later(Type)
+            
     def __init__(self, master, title: str, color: str, outputs: list, inputs: list):
         super().__init__(master)
         self.base_width = 100
